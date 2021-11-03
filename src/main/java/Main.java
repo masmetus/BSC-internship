@@ -12,16 +12,16 @@ public class Main {
         List<ToDo> ToDoList = new ArrayList<ToDo>();
         String command = " ";
 
+
+
         while (command != "quit") {
 
-            System.out.println("Введите команду: ");
-            command = scan.nextLine();
+            command = scan.nextLine().trim();
             switch (command) {
 
                 case ("add"):
                     ToDo toDo = new ToDo();
-                    System.out.println("Введите задачу: ");
-                    String task = scan.nextLine();
+                    String task = scan.next().trim();
                     toDo.setTask(task);
                     toDo.setId(n++);
                     toDo.setStatus(" ");
@@ -42,9 +42,9 @@ public class Main {
                     }
                     break;
 
-                case ("print [all]"):
+                case ("print all"):
                     if (ToDoList.isEmpty()) {
-                        System.out.println("На данный момент задач нет. Внесите задачу коммадой add.");
+                        System.err.println("На данный момент задач нет. Внесите задачу коммадой add.");
                     } else {
                         System.out.println("Ваши задачи: ");
                         for (int i = 0; i < ToDoList.size(); i++)
@@ -54,18 +54,60 @@ public class Main {
 
                 case ("toggle"):
                     if (ToDoList.isEmpty()) {
-                        System.out.println("На данный момент список задач пуст. Внесите задачу коммадой add, а после измените её статус.");
+                        System.err.println("На данный момент список задач пуст.");
                     } else {
-                        System.out.println("Введите индекс: ");
-                        String index = scan.nextLine();
+                        String index = scan.nextLine().trim();
                         int foo = Integer.parseInt(index);
-                        if (ToDoList.get(foo).getStatus().equals(" ")) {
-                            ToDoList.get(foo).setStatus("x");
+                        if (foo >= ToDoList.size()) {
+                            System.err.println("Задачи с таким идентификатором не существует");
                         } else {
-                            ToDoList.get(foo).setStatus(" ");
+                            if (ToDoList.get(foo).getStatus().equals(" ")) {
+                                ToDoList.get(foo).setStatus("x");
+                            } else {
+                                ToDoList.get(foo).setStatus(" ");
+                            }
+
                         }
                     }
                     break;
+
+                case ("delete"):
+                    if (ToDoList.isEmpty()) {
+                        System.err.println("На данный момент список задач пуст.");
+                    }
+                    //System.out.println("Индекс");
+                    String index = scan.nextLine().trim();
+                    int foo = Integer.parseInt(index);
+                    if (foo >= ToDoList.size()) {
+                        System.err.println("Задачи с таким идентификатором не существует");
+                    } else {
+                        ToDoList.remove(foo); //Пока что индексы у уже сущ. задач не смещаются
+
+                    }
+
+                    break;
+
+                case ("edit"):
+                    if (ToDoList.isEmpty()) {
+                        System.err.println("На данный момент список задач пуст.");
+                    }
+                    String newTask = scan.nextLine().trim();
+                    String id = scan.nextLine().trim();
+                    int changeIndex = Integer.parseInt(id);
+
+                    if (changeIndex >= ToDoList.size()) {
+                        System.err.println("Задачи с таким идентификатором не существует");
+                    } else {
+                        ToDo toDoList = ToDoList.get(changeIndex);
+                        toDoList.setTask(newTask);
+                    }
+
+                    break;
+
+                case ("search"):
+                    if (ToDoList.isEmpty()) {
+                        System.err.println("На данный момент список задач пуст.");
+                    }
 
                 case ("quit"):
                     command = "quit";
