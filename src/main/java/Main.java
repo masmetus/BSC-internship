@@ -12,16 +12,14 @@ public class Main {
         List<ToDo> ToDoList = new ArrayList<ToDo>();
         String command = " ";
 
-
-
         while (command != "quit") {
 
-            command = scan.nextLine().trim();
-            switch (command) {
+            String comm = scan.nextLine().trim();
 
+            switch (comm) {
                 case ("add"):
                     ToDo toDo = new ToDo();
-                    String task = scan.next().trim();
+                    String task = scan.nextLine();
                     toDo.setTask(task);
                     toDo.setId(n++);
                     toDo.setStatus(" ");
@@ -31,7 +29,7 @@ public class Main {
 
                 case ("print"):
                     if (ToDoList.isEmpty()) {
-                        System.out.println("На данный момент задач нет. Внесите задачу коммадой add.");
+                        System.err.println("На данный момент задач нет.");
                     } else {
                         System.out.println("Ваши невыполненные задачи: ");
                         List<ToDo> filtered = ToDoList.stream()
@@ -44,7 +42,7 @@ public class Main {
 
                 case ("print all"):
                     if (ToDoList.isEmpty()) {
-                        System.err.println("На данный момент задач нет. Внесите задачу коммадой add.");
+                        System.err.println("На данный момент задач нет.");
                     } else {
                         System.out.println("Ваши задачи: ");
                         for (int i = 0; i < ToDoList.size(); i++)
@@ -108,6 +106,18 @@ public class Main {
                     if (ToDoList.isEmpty()) {
                         System.err.println("На данный момент список задач пуст.");
                     }
+
+                    String desk = scan.nextLine().trim();
+                    if (desk.length() > 0) {
+                        List<ToDo> filtered = ToDoList.stream()
+                                .filter(string -> string.getTask().contains(desk))
+                                .collect(Collectors.toList());
+                        for (int i = 0; i < filtered.size(); i++)
+                            System.out.println(filtered.get(i));
+                    } else {
+                        System.err.println("Введите описание задачи");
+                    }
+                    break;
 
                 case ("quit"):
                     command = "quit";
